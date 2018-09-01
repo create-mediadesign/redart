@@ -48,7 +48,21 @@ redart fetch --target-name <new-filename> <redmine-project>/<artifact-file-name>
 
 ## Deployment
 
-TODO
+First time:
+
+```
+pip install twine
+``` 
+
+Updating:
+
+* Change version inside setup.py
+* Then run:
+
+```
+pytyhon setup.py sdist
+twine upload dist/*
+```
 
 ## License
 

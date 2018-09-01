@@ -3,3 +3,4 @@
 redart.egg-info
 __pycache__
 /tmp
+/dist
