@@ -60,7 +60,7 @@ Updating:
 * Then run:
 
 ```
-pytyhon setup.py sdist
+python setup.py sdist
 twine upload dist/*
 ```
 

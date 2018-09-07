@@ -15,21 +15,22 @@ def zipdir(path, ziph):
       p = os.path.join( root[len(path):], file) # remove "root folder"
       ziph.write(os.path.join(root, file), p)
 
-def load_redmine_config():
+def load_redmine_config(base, key):
   opts = {}
-  f = open(os.path.join('.', '.redart'), 'r')
-  opts['url'] = f.read()
-  f.close()
-  f = open(os.path.join('.', '.redart-auth'), 'r')
-  opts['key'] = f.read()
-  f.close()
+  if base and key:
+    opts['url'] = base
+    opts['key'] = key
+  else:
+    f = open(os.path.join('.', '.redart'), 'r')
+    opts['url'] = f.read()
+    f.close()
+    f = open(os.path.join('.', '.redart-auth'), 'r')
+    opts['key'] = f.read()
+    f.close()
   return opts
 
 def get_redmine(base, key):
-  if base and key:
-    conf = {'url': base, 'key': key}
-  else:
-    conf = load_redmine_config()
+  conf = load_redmine_config(base, key)
   return Redmine(conf['url'], key= conf['key'])
 
 def get_redmine_spec(spec, redmine):
@@ -136,7 +137,7 @@ def fetch(extract, target_name, redmine_spec, target_folder, redmine_base, redmi
 
   target_dir = os.path.join(target_folder)
   click.echo("Downloading artifact %s to %s ..." % (spec['filename'], target_dir))
-  rconf = load_redmine_config()
+  rconf = load_redmine_config(redmine_base, redmine_key)
   url = "%s?key=%s" % (existing_file.content_url, rconf['key'])
   with urllib.request.urlopen(url) as response, open(tmpfile, 'wb') as out_file:
     shutil.copyfileobj(response, out_file)
