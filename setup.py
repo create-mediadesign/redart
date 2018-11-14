@@ -1,7 +1,8 @@
+# coding=UTF-8
 from setuptools import setup
 setup(
     name = 'redart',
-    version = '0.1.2',
+    version = '0.1.3',
     packages = ['redart'],
     description = 'A Redmine Artifact manager',
     author = 'René Groß',

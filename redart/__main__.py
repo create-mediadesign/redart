@@ -47,8 +47,10 @@ def get_redmine_spec(spec, redmine):
 
 def get_existing_file(spec, redmine):
   existing_file = None
-  existing_files = redmine.file.filter(project_id=spec['project'])
+  existing_files = redmine.file.filter(project_id=spec['project'], version_id=spec['version_id'])
   for f in existing_files:
+    if not hasattr(f, 'version'):
+      continue
     if f.filename == spec['filename'] and f.version.id == spec['version_id']:
       existing_file = f
 
