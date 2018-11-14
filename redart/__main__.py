@@ -34,14 +34,16 @@ def get_redmine(base, key):
   return Redmine(conf['url'], key= conf['key'])
 
 def get_redmine_spec(spec, redmine):
-  path, version_name = spec.split(':')
+  path, version_name_tag = spec.split(':')
   prj, fn = path.split('/')
   versions = redmine.version.filter(project_id = prj)
   version_id = None
+  version_name = None
   for version in versions:
-    if version.name == version_name:
+    if version.name == version_name_tag:
       version_id = version.id
-  return {'project': prj, 'filename': fn, 'version_name': version, 'version_id': version_id}
+      version_name = version.name
+  return {'project': prj, 'filename': fn, 'version_name': version_name, 'version_id': version_id}
 
 def get_existing_file(spec, redmine):
   existing_file = None
