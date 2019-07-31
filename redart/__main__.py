@@ -5,6 +5,7 @@ import zipfile
 import tempfile
 import shutil
 import urllib.request
+import time
 from redminelib import Redmine
 
 # https://stackoverflow.com/a/1855118/1249951
@@ -100,7 +101,11 @@ def pub(compress, force, redmine_spec, folder_or_file, redmine_base, redmine_key
     click.confirm('An existing file has been found, do you want to overwrite it?', abort=True)
 
   if existing_file:
-    redmine.file.delete(existing_file.id)
+    print("Removing existing file ...")
+    try:
+      redmine.file.delete(existing_file.id)
+    except:
+      print("The file has been deleted but the server did not respond accordingly - this is fine.")
   
   # Now create the File
   redmine.file.create(
